@@ -11,7 +11,7 @@ A Spring Boot 3 application for managing a simple library system. It includes JW
 ## 📥 How to Download the App From GitHub
 Clone the repository:
 ```
-git clone https://github.com/YourGitHubName/YourLibraryRepo.git
+git clone https://github.com/AlexanderBadenhorst/Final-Project.git
 cd YourLibraryRepo
 ```
 
