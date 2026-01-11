@@ -1,171 +1,140 @@
-# 📚 Library Management System (Spring Boot REST API)
+# 📘 Library Management API
 
-A fully functional **Spring Boot backend application** that manages Authors, Books, Borrowers, and Loans.  
-The system exposes a complete **REST API**, fully **documented and testable via Swagger**, and follows clean layered architecture.
+A Spring Boot 3 application for managing a simple library system.  
+It includes JWT authentication, PostgreSQL persistence, Docker-based deployment,  
+and Swagger UI for API exploration.  
+
+The system supports full CRUD operations for Authors, Books, Borrowers, Loans, and Users,  
+with a one-to-many relationship between Authors and Books.
 
 ---
 
 ## 🚀 Features
-
-### ✔ Authors
-- Create, read, update, delete authors
-- Auto-generated IDs
-- Validation + exception handling
-
-### ✔ Books
-- CRUD operations
-- Track total copies and available copies
-- Linked to authors
-- Validation to ensure required fields and valid values
-
-### ✔ Borrowers
-- CRUD operations
-- Valid email & phone number format checking
-
-### ✔ Loans
-- Borrow book (decrements available copies)
-- Return book (increments available copies)
-- Loan deletion
-- Full relationship validation:
-    - Cannot borrow non-existing book
-    - Cannot borrow if no copies available
-    - Cannot return a non-existing loan
-
-### ✔ Swagger API Documentation
-Access the API documentation and test all endpoints through Swagger UI:
-
-http://localhost:8080/swagger-ui/index.html
-
+- JWT Authentication (register, login, secure endpoints)
+- CRUD operations for all core entities
+- PostgreSQL running fully inside Docker
+- Swagger UI for easy testing
+- Docker Compose deployment
+- Clean project structure with services, DTOs, repositories, and controllers
 
 ---
 
-## 🧱 Architecture
+## 📥 Download the App From GitHub
 
-The project follows clean layered Spring architecture:
+Clone the repository:
 
-controller/
-service/
-repository/
-model/
-dto/
-exception/
-
-
-- **Controller Layer** – Handles API requests
-- **Service Layer** – Business logic
-- **Repository Layer** – Database access (Spring Data JPA)
-- **Model Layer** – JPA entities
-- **DTO Layer** – Data transfer and validation
-- **Exception Layer** – Centralized error handling
+```bash
+git clone https://github.com/AlexanderBadenhorst/Final-Project.git
+cd Final-Project
+```
 
 ---
 
-## 🛠 Technologies Used
+## 🐳 Build and Run the App With Docker
 
-- **Java 17**
-- **Spring Boot**
-- **Spring Web**
-- **Spring Data JPA**
-- **Hibernate**
-- **H2 Database**
-- **Lombok**
-- **Swagger / Springdoc OpenAPI**
+Make sure Docker Desktop is running.
 
----
+### Start the full system
 
-## ▶ Running the Application
+```bash
+docker compose up --build
+```
 
-### 1. Clone the repository
+This launches:
+- PostgreSQL on port **5433**
+- Spring Boot API on port **8080**
 
-git clone <your-repo-url>
+### Stop all containers
 
-### 2. Open the project in IntelliJ / Eclipse / VS Code
-### 3. Run the Spring Boot application
-
-Run the main class:
-
-LibraryApplication.java
-
-## 4. Open Swagger UI
-http://localhost:8080/swagger-ui/index.html
-
-
-You can now test every endpoint from the browser.
+```bash
+docker compose down
+```
 
 ---
 
-## 📂 API Overview
-### Authors
-- GET    /api/authors
-- GET    /api/authors/{id}
-- POST   /api/authors
-- PUT    /api/authors/{id}
-- DELETE /api/authors/{id}
+## 🌐 Accessing the API
 
-### Books
-- GET    /api/books
-- GET    /api/books/{id}
-- POST   /api/books
-- PUT    /api/books/{id}
-- DELETE /api/books/{id}
+### Swagger UI  
+👉 http://localhost:8080/swagger-ui/index.html
 
-### Borrowers
-- GET    /api/borrowers
-- GET    /api/borrowers/{id}
-- POST   /api/borrowers
-- PUT    /api/borrowers/{id}
-- DELETE /api/borrowers/{id}
-
-### Loans
-- POST   /api/loans/borrow/{bookId}/{borrowerId}
-- POST   /api/loans/return/{loanId}
-- GET    /api/loans
-- GET    /api/loans/{id}
-- DELETE /api/loans/{id}
+### API Root  
+👉 http://localhost:8080/
 
 ---
 
-## 🧪 Testing
+## 🔐 Testing JWT Authentication in Swagger
 
-### The application is fully testable in Swagger:
+### 1. Register a new user  
+POST `/api/auth/register`
 
-- Input validation
+```json
+{
+  "username": "alex",
+  "password": "password",
+  "role": "ADMIN"
+}
+```
 
-- CRUD operations
+### 2. Login to receive the JWT  
+POST `/api/auth/login`
 
-- Business rules (loan availability, returns)
+Example response:
 
-- Clean JSON responses
+```json
+{
+  "token": "your.jwt.token"
+}
+```
+
+### 3. Authorize protected endpoints
+Click **Authorize** → paste:
+
+```
+Bearer your.jwt.token
+```
+
+You are now authenticated.
+
+---
+
+## 📚 Testing CRUD Endpoints in Swagger
+
+Once authenticated, test all controllers:
+
+### 👤 Authors  
+- Create author  
+- Get list of authors  
+- Update author  
+- Delete author  
+
+### 📘 Books  
+- Create books  
+- Link to authors  
+- Update copy counts  
+
+### 🧍 Borrowers  
+- Register borrowers  
+
+### 🔁 Loans  
+- Issue loans  
+- Return books  
+
+### 👥 Users (Admin only)  
+- Create and manage app users  
+
+All data is stored in the Dockerized PostgreSQL container.
 
 ---
 
-## 🧩 Error Handling
+## ✅ Summary
 
-### A global exception handler returns clean JSON error responses for:
+This project demonstrates:
 
-- Resource not found
+- Modern Spring Boot 3 backend design
+- Secure JWT-based authentication
+- Docker Compose deployment with isolated database
+- Swagger-powered API documentation
+- One-to-many relationships with JPA
+- Professional, production-ready service architecture
 
-- Validation errors
-
-- SQL constraint violations
-
-### Example error:
-
-- *{
-"error": "Borrower not found",
-"timestamp": "2025-12-01T12:34:56.789Z"
-}*
----
-## 📝 Notes
-
-- Designed for academic demonstration and future expansion.
-
-- Easily extendable with authentication, roles, or real database integration (MySQL/PostgreSQL).
----
-## 👨‍💻 Author
-
-- **Alexander Badenhorst**
-- View more of my work: https://github.com/AlexanderBadenhorst
-
-
----
+You now have a clean, fully working application that can run anywhere Docker is installed.
