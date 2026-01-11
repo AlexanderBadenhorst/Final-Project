@@ -23,6 +23,7 @@ public class AuthorService {
         AuthorDto dto = new AuthorDto();
         dto.setId(author.getId());
         dto.setName(author.getFirstName() + " " + author.getLastName());
+        dto.setBiography(author.getBiography());   // biography added
         return dto;
     }
 
@@ -34,6 +35,7 @@ public class AuthorService {
         return Author.builder()
                 .firstName(first)
                 .lastName(last)
+                .biography(dto.getBiography())      // biography added
                 .build();
     }
 
@@ -65,6 +67,8 @@ public class AuthorService {
         String[] parts = dto.getName().split(" ", 2);
         existing.setFirstName(parts[0]);
         existing.setLastName(parts.length > 1 ? parts[1] : "");
+
+        existing.setBiography(dto.getBiography());   //Biography added
 
         return toDto(authorRepository.save(existing));
     }

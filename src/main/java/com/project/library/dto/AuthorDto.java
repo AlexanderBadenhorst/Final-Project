@@ -9,4 +9,5 @@ public class AuthorDto {
 
     @NotBlank(message = "Name cannot be blank")
     private String name;
+    private String biography; //biography added
 }
